@@ -116,23 +116,23 @@ class CowMod(loader.Module):
 
         if len(args) < 1:
             dovs_ids_str = ', '.join(f'<code>@{id}</code>' for id in self.dovs_ids)
-            await message.respond(f"🌘 <code>.dov сет</code> <b> @id — Добавить/удалить доверенность.</b>\n    ✨ <i>Доверенные пользователи:</i>\n{dovs_ids_str}\n\n🌘 <code>.dov ник</code> <b> ник — Установить ник.</b>\n<b>Например:</b> <i>.dov ник один</i>\n    🔰 <b>Ваш ник:</b> {self.prefix}"  )
+            await message.edit(f"🌘 <code>.dov сет</code> <b> @id — Добавить/удалить доверенность.</b>\n    ✨ <i>Доверенные пользователи:</i>\n{dovs_ids_str}\n\n🌘 <code>.dov ник</code> <b> ник — Установить ник.</b>\n<b>Например:</b> <i>.dov ник один</i>\n    🔰 <b>Ваш ник:</b> {self.prefix}"  )
             return
 
         if args[0].lower() == "ник":
             new_prefix = args[1]
             self.prefix = new_prefix
             self.db.set("CowMod", "prefix", new_prefix) 
-            await message.respond(f"✅ <b>Ник изменен на:</b> {new_prefix}")
+            await message.edit(f"✅ <b>Ник изменен на:</b> {new_prefix}")
         elif args[0].lower() == "сет":
             try:
                 new_id = args[1].lstrip("@")
                 if int(new_id) in self.dovs_ids:
                     self.dovs_ids.remove(int(new_id))
-                    await message.respond(f"✅ <b>Доверенность удалена:</b> {new_id}")
+                    await message.edit(f"✅ <b>Доверенность удалена:</b> {new_id}")
                 else:
                     self.dovs_ids.append(int(new_id))
-                    await message.respond(f"✅ <b>Доверенность добавлена:</b> {new_id}")
+                    await message.edit(f"✅ <b>Доверенность добавлена:</b> {new_id}")
             except ValueError:
                 await message.edit("❌ <b>Это не @id</b>")
         else:
