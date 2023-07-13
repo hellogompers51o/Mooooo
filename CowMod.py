@@ -122,16 +122,16 @@ class CowMod(loader.Module):
             new_prefix = args[1]
             self.prefix = new_prefix
             self.db.set("CowMod", "prefix", new_prefix) 
-            await message.edit(f"✅ <b>Ник изменен на:</b> {new_prefix}")
+            await message.respond(f"✅ <b>Ник изменен на:</b> {new_prefix}")
         elif args[0].lower() == "сет":
             try:
                 new_id = args[1].lstrip("@")
                 if int(new_id) in self.dovs_ids:
                     self.dovs_ids.remove(int(new_id))
-                    await message.edit(f"✅ <b>Доверенность удалена:</b> {new_id}")
+                    await message.respond(f"✅ <b>Доверенность удалена:</b> {new_id}")
                 else:
                     self.dovs_ids.append(int(new_id))
-                    await message.edit(f"✅ <b>Доверенность добавлена:</b> {new_id}")
+                    await message.respond(f"✅ <b>Доверенность добавлена:</b> {new_id}")
             except ValueError:
                 await message.edit("❌ <b>Это не @id</b>")
         else:
