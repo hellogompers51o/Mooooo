@@ -134,6 +134,6 @@ class CowMod(loader.Module):
                     self.dovs_ids.append(int(new_id))
                     await message.respond(f"✅ <b>Доверенность добавлена:</b> {new_id}")
             except ValueError:
-                await message.edit("❌ <b>Это не @id</b>")
+                await message.respond("❌ <b>Это не @id</b>")
         else:
-            await message.edit("❌ <b>Неверные аргументы!</b>")
+            await message.respond("❌ <b>Неверные аргументы!</b>")
