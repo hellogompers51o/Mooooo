@@ -32,6 +32,7 @@ class CowMod(loader.Module):
         self.bp_actions = [("лог[ика]{,3}\s\d+$", "Логика"), ("пам[ять]{,3}\s\d+$", "Память"), ("чте[ние]{,3}\s\d+$", "Чтение"), ("физ[уха]{,3}\s\d+$", "Физуха"), ("фан[тазия]{,5}\s\d+$", "Фантазия"), ("кре[ативность]{,9}\s\d+$", "Креативность")]
         self.dovs_ids = self.db.get("CowMod", "dovs_ids")
         self.prefix = self.db.get("CowMod", "prefix")
+        
     async def watcher(self, message):
         if not isinstance(message, telethon.tl.types.Message): return
         reply = await message.get_reply_message()
