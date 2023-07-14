@@ -111,30 +111,47 @@ class CowMod(loader.Module):
     @loader.owner
     async def dovcmd(self, message):
         """(аргумент 1) (аргумент 2)
-📝 Введи команду для просмотра аргументов!"""
+        Введи команду для просмотра аргументов!"""
         args = utils.get_args(message)
 
         if len(args) < 1:
             dovs_ids_str = ', '.join(f'<code>@{id}</code>' for id in self.dovs_ids)
-            await message.respond(f"🌘 <code>.dov сет</code>  <i>id/реплай</i> <b>— Добавить/удалить доверенность.</b>\n    🐮 <b>Доверенные пользователи:</b>\n{dovs_ids_str}\n\n🌘 <code>.dov ник</code>  <i>ник</i> <b>— Установить ник.</b>\n   🐮 <b>Ваш ник:</b> <code>{utils.escape_html(self.prefix)}</code>")
+            await message.edit(f"🌘 <code>.dov сет</code> <b> @id — Добавить/удалить доверенность.</b>\n    ✨ <i>Доверенные пользователи:</i>\n{dovs_ids_str}\n\n🌘 <code>.dov ник</code> <b> ник — Установить ник.</b>\n<b>Например:</b> <i>.dov ник один</i>\n    🔰 <b>Ваш ник:</b> {self.prefix}")
             return
 
         if args[0].lower() == "ник":
             new_prefix = args[1]
             self.prefix = new_prefix
-            self.db.set("CowMod", "prefix", new_prefix) 
-            await message.edit(f"✅ <b>Ник изменен на:</b> <code>{utils.escape_html(new_prefix)}</code>")
+            self.db.set("CowMod", "prefix", new_prefix)
+            await message.edit(f"✅ <b>Ник изменен на:</b> {new_prefix}")
         elif args[0].lower() == "сет":
+            if len(args) < 2 and not (message.is_reply and message.reply_to_msg_id):
+                await message.edit("❌ <b>Не указан id/реплай.</b>")
+                return
+
             if message.is_reply and message.reply_to_msg_id:
                 reply_message = await message.get_reply_message()
-                new_id = reply_message.sender_id
-                if new_id in self.dovs_ids:
-                    self.dovs_ids.remove(new_id)
-                    await message.respond(f"✅ <b>Доверенность удалена:</b> {new_id}")
+                if reply_message.sender_id:
+                    new_id = reply_message.sender_id
+                    if new_id in self.dovs_ids:
+                        self.dovs_ids.remove(new_id)
+                        await message.edit(f"✅ <b>Доверенность удалена:</b> {new_id}")
+                    else:
+                        self.dovs_ids.append(new_id)
+                        await message.edit(f"✅ <b>Доверенность добавлена:</b> {new_id}")
                 else:
-                    self.dovs_ids.append(new_id)
-                    await message.respond(f"✅ <b>Доверенность добавлена:</b> {new_id}")
+                    await message.edit("❌ <b>Невозможно получить id отправителя!</b>")
             else:
-                await message.respond("❌ <b>Это не id/реплай</b>")
+                new_id = args[1].lstrip("@")
+                if new_id.isdigit():
+                    new_id = int(new_id)
+                    if new_id in self.dovs_ids:
+                        self.dovs_ids.remove(new_id)
+                        await message.edit(f"✅ <b>Доверенность удалена:</b> {new_id}")
+                    else:
+                        self.dovs_ids.append(new_id)
+                        await message.edit(f"✅ <b>Доверенность добавлена:</b> {new_id}")
+                else:
+                    await message.edit("❌ <b>Это не id/реплай</b>")
         else:
-            await message.respond("❌ <b>Неверные аргументы!</b>")
+            await message.edit("❌ <b>Неверные аргументы!</b>")
