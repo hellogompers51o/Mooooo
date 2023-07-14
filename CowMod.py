@@ -135,6 +135,6 @@ class CowMod(loader.Module):
                     self.dovs_ids.append(new_id)
                     await message.respond(f"✅ <b>Доверенность добавлена:</b> {new_id}")
             else:
-                await message.respond("❌ <b>Ответь на сообщение пользователем, чтобы установить доверенность.</b>")
+                await message.respond("❌ <b>Это не id/реплай</b>")
         else:
             await message.respond("❌ <b>Неверные аргументы!</b>")
