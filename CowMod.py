@@ -115,7 +115,7 @@ class CowMod(loader.Module):
         args = utils.get_args(message)
         if len(args) < 1:
             dovs_ids_str = ', '.join(f'<code>@{id}</code>' for id in self.dovs_ids)
-            await self.inline.form(f"🌘 <code>.dov сет</code>  <i>id/реплай</i> <b>— Добавить/удалить доверенность.</b>\n    🐮 <b>Доверенные пользователи:</b>\n{dovs_ids_str}\n\n🌘 <code>.dov ник</code> <i>ник</i> <b>— Установить ник.</b>\n   🐮 <b>Ваш ник:</b> <code>{utils.escape_html(self.prefix)}</code>", message, {'text': 'закрыть', 'action': 'close'})
+            await self.inline.form(f"🌘 <code>.dov сет</code>  <i>id/реплай</i> <b>— Добавить/удалить доверенность.</b>\n    🐮 <b>Доверенные пользователи:</b>\n{dovs_ids_str}\n\n🌘 <code>.dov ник</code> <i>ник</i> <b>— Установить ник.</b>\n    🐮 <b>Ваш ник:</b> <code>{utils.escape_html(self.prefix)}</code>", message, {'text': 'закрыть', 'action': 'close'})
             return
 
         if args[0].lower() == "ник":
