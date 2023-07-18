@@ -110,8 +110,7 @@ class CowMod(loader.Module):
 
     @loader.owner
     async def dovcmd(self, message):
-        """(аргумент 1) (аргумент 2)
-          📝 Введи команду для просмотра аргументов!"""
+        """(аргумент 1) (аргумент 2)\n 📝 Введи команду для просмотра аргументов!"""
         args = utils.get_args(message)
         if len(args) < 1:
             dovs_ids_str = ', '.join(f'<code>@{id}</code>' for id in self.dovs_ids)
