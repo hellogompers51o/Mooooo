@@ -22,7 +22,7 @@ class CowMod(loader.Module):
 
     async def client_ready(self, client, db):
         self.db = db
-        self.client = client #IDS
+        self.client = client
         if not self.db.get("CowMod", "dovs_ids", False):
             self.db.set("CowMod", "dovs_ids", [])
         if not self.db.get("CowMod", "prefix", False):
@@ -32,7 +32,7 @@ class CowMod(loader.Module):
         self.bp_actions = [("лог[ика]{,3}\s\d+$", "Логика"), ("пам[ять]{,3}\s\d+$", "Память"), ("чте[ние]{,3}\s\d+$", "Чтение"), ("физ[уха]{,3}\s\d+$", "Физуха"), ("фан[тазия]{,5}\s\d+$", "Фантазия"), ("кре[ативность]{,9}\s\d+$", "Креативность")]
         self.dovs_ids = self.db.get("CowMod", "dovs_ids")
         self.prefix = self.db.get("CowMod", "prefix")
-        
+
     async def watcher(self, message):
         if not isinstance(message, telethon.tl.types.Message): return
         reply = await message.get_reply_message()
