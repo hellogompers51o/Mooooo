@@ -66,7 +66,7 @@ class CowMod(loader.Module):
                     await reply.reply(str(craft_value))
 
 # Действия с разными предметами       
-        if author.id in self.dovs_ids and re.search(self.prefix + r'\s+т(?:ал(?:и(?:с(?:м(?:ан?)?)?)?)?)?$', content, re.IGNORECASE):
+        if author.id in self.dovs_ids and re.match(self.prefix + r'\s+т(?:ал(?:и(?:с(?:м(?:ан?)?)?)?)?)?$', content, re.IGNORECASE):
             await message.reply("Кинуть талисман")
         if author.id in self.dovs_ids and re.match(self.prefix + r'\s+пикси$', content, re.IGNORECASE):
             await message.reply("Кинуть пикси")
@@ -81,7 +81,7 @@ class CowMod(loader.Module):
             await message.reply(str(args))
 
 # Действия с кинуть
-        if author.id in self.dovs_ids and (r := re.search(self.prefix + r' кинуть\s\w+', content, re.IGNORECASE)):
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' кинуть\s\w+', content, re.IGNORECASE)):
             await message.reply(str(args))
 
 # Действия с мз
