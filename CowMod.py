@@ -86,9 +86,9 @@ class CowMod(loader.Module):
             await message.reply(str(args))
 
 # Действия с рынком, базаром
-        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' базар\s+$+', content, re.IGNORECASE)):
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' базар\s+\w+$', content, re.IGNORECASE)):
             await message.reply(str(args))
-        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' рынок\s+$', content, re.IGNORECASE)):
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' рынок\s+\w+$', content, re.IGNORECASE)):
             await message.reply(str(args))
 
 # Действия с мз
