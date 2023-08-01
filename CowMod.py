@@ -1,4 +1,4 @@
-__version__ = (2, 4, 9)
+__version__ = (2, 5, 8)
 # meta developer: Аноним?
 from .. import loader, utils
 from hikkatl.tl.types import Message
