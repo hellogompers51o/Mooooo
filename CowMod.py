@@ -5,7 +5,6 @@ from hikkatl.tl.types import Message
 import asyncio, re, telethon, string
 from telethon.tl.types import KeyboardButtonSwitchInline
 
-
 class CowMod(loader.Module):
     """Коров`яча доверка
 🏷 Использование: Ник (аргумент)\n
@@ -130,6 +129,7 @@ class CowMod(loader.Module):
                 await reply.click(n)
         except ValueError: return
 
+# Доверенность
     @loader.owner
     async def dovcmd(self, message):
         """(аргумент 1) (аргумент 2)\n 📝 Введи команду для просмотра аргументов!"""
