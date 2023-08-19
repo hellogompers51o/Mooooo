@@ -1,8 +1,10 @@
-__version__ = (2, 6, 2)
+__version__ = (2, 7, 1)
 # meta developer: Аноним?
 from .. import loader, utils
 from hikkatl.tl.types import Message
 import asyncio, re, telethon, string
+from telethon.tl.types import KeyboardButtonSwitchInline
+
 
 class CowMod(loader.Module):
     """Коров`яча доверка
@@ -18,6 +20,7 @@ class CowMod(loader.Module):
   🌿 Для управления кинуть — кинуть (предмет),  [т|тал(исман), пикси]
   🎏 Для управления базаром, рынком — [бз|базар] (предмет), рынок (предмет)
   🕹 Для управления инлайн кнопками — (-∞; +∞)
+  🕹 Для управления #чеккоманд — чек
   ✨ Для управления доп. командами — муу, адд, скрафтить, гифт, пок, ач, рек, херомант, медаль"""
     strings = {"name": "HikkaDov"}
 
@@ -108,6 +111,17 @@ class CowMod(loader.Module):
             for _ in range(int((r.group(1) or f' {1}')[1:])):
                 await message.reply("Кинуть цыпа")
                 await asyncio.sleep(2)
+
+# Действия с чек
+        if author.id in self.dovs_ids and re.match(self.prefix + r'\s+чек$', content, re.IGNORECASE): 
+            reply = await self.client.get_messages(message.chat_id, ids=reply.id)
+            markup = reply.reply_markup
+
+            if markup and markup.rows:
+                for row in markup.rows:
+                    for button in row.buttons:
+                        if isinstance(button, KeyboardButtonSwitchInline):
+                            await self.client.send_message(message.chat_id, f"@{reply.sender.username}{button.query}")
 
 # Действия с инлайнами
         try:
