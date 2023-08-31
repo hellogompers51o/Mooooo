@@ -1,4 +1,4 @@
-__version__ = (2, 7, 1)
+__version__ = (2, 7, 4)
 # meta developer: Аноним?
 from .. import loader, utils
 from hikkatl.tl.types import Message
@@ -62,7 +62,7 @@ class CowMod(loader.Module):
                     await reply.reply(args)
 
 # Действия с цифрами
-        if author.id in self.dovs_ids and (r := re.match(self.prefix + r'\s+(?:ц|циф|цифра)\s+(\d+)$', content, re.IGNORECASE)):
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r'\s+(?:ц|циф|цифра)\s+(-?\d+)$', content, re.IGNORECASE)):
             if r.group(1):
                 num_value = int(r.group(1))
                 await reply.reply(str(num_value))
