@@ -43,7 +43,7 @@ class CowMod(loader.Module):
         args = utils.get_args_raw(message)
 
 # Действия с коровкой
-        if author.id in self.dovs_ids:
+        if author is not None and author.id in self.dovs_ids:
             for action, response in self.cow_actions.items():
                 pattern = self.prefix + r'\s+' + action + "$"
                 if re.match(pattern, content, re.IGNORECASE):
