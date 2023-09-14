@@ -1,4 +1,4 @@
-__version__ = (2, 8, 1)
+__version__ = (2, 8, 3)
 # meta developer: Аноним?
 from .. import loader, utils
 from hikkatl.tl.types import Message
@@ -97,11 +97,11 @@ class CowMod(loader.Module):
             await message.reply(str(args))
 
 # Действия с мз
-        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' мз(?:\s+\w+)?$', content, re.IGNORECASE)):
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' мз(?:\s+\w+)?', content, re.IGNORECASE)):
             await message.reply(str(args))
 
 # Действия с рес
-        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' рес(?:\s+\w+)?$', content, re.IGNORECASE)):
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' рес(?:\s+\w+)?', content, re.IGNORECASE)):
             await message.reply(str(args))
 
 # Действия с рек, ач
