@@ -1,4 +1,4 @@
-__version__ = (2, 7, 4)
+__version__ = (2, 8, 1)
 # meta developer: Аноним?
 from .. import loader, utils
 from hikkatl.tl.types import Message
@@ -10,7 +10,7 @@ class CowMod(loader.Module):
 🏷 Использование: Ник (аргумент)\n
 📋 Аргументы:
   🐄 Для управления коровкой — мук, мус, муп, мулс, мув, муз, муд, муа, муш, муг, муко, муку, мул, мукр, мукри, мун, муф, муб, муби, таск
-  🐂 Для управления телям — бб, ббт, ббз, ббц, ббу, ббп, ббд, ббя, ббч, ббс, ббм, бби, ббр, вб
+  🐂 Для управления телям — бб, ббт, ббз, ббц, ббу, ббп, ббд, ббя, ббч, ббс, ббм, бби, ббб, ббр, вб
   🎒 Для управления рюкзаком — лог[ика], пам[ять], чте[ние], физ[уха], фан[тазия], кре[ативность] (цифра)
   🔢 Для управления цифрами — ц|циф|цифра (-∞; +∞)
   🐥 Для управления цыпами — цыпа (1-10)
@@ -30,8 +30,8 @@ class CowMod(loader.Module):
             self.db.set("CowMod", "dovs_ids", [])
         if not self.db.get("CowMod", "prefix", False):
             self.db.set("CowMod", "prefix", "Г")
-        self.cow_actions = {"мук": "Мук", "мулс": "Мулс", "муф": "Муф", "муа": "Муа", "муп": "Муп", "муш": "Муш", "мус": "Мус", "мув": "Мув", "муз": "Муз", "муд": "Муд", "муко": "Муко", "муку": "Муку", "мул": "Мул", "муг": "Муг", "муби": "Муби", "муб": "Муб", "мукр": "Мукр", "муу": "Муу", "мун": "Мун", "мукри": "Мукри", "пок": "Пок", "ач": "Ач", "херомант": "Херомант", "рек": "Рек", "гифт": "Гифт", "таск": "Му таск"}
-        self.bull_actions = {"бб": "Бб", "ббт": "Ббт", "ббз": "Ббз", "ббц": "Ббц", "ббу": "Ббу", "ббп": "Ббп", "ббд": "Ббд", "ббя": "Ббя", "ббч": "Ббч", "ббс": "Ббс", "ббм": "Ббм", "бби": "Бби", "ббр": "Ббр", "вб": "Вб"}
+        self.cow_actions = {"мук": "Мук", "мулс": "Мулс", "муф": "Муф", "муа": "Муа", "муп": "Муп", "муш": "Муш", "мус": "Мус", "мув": "Мув", "муз": "Муз", "муд": "Муд", "муко": "Муко", "муку": "Муку", "мул": "Мул", "муг": "Муг", "муби": "Муби", "муб": "Муб", "мукр": "Мукр", "муу": "Муу", "мун": "Мун", "мукри": "Мукри", "херомант": "Херомант", "гифт": "Гифт", "таск": "Му таск"}
+        self.bull_actions = {"бб": "Бб", "ббт": "Ббт", "ббб": "Ббб", "ббз": "Ббз", "ббц": "Ббц", "ббу": "Ббу", "ббп": "Ббп", "ббд": "Ббд", "ббя": "Ббя", "ббч": "Ббч", "ббс": "Ббс", "ббм": "Ббм", "бби": "Бби", "ббр": "Ббр", "вб": "Вб"}
         self.bp_actions = [("лог[ика]{,3}\s\d+$", "Логика"), ("пам[ять]{,3}\s\d+$", "Память"), ("чте[ние]{,3}\s\d+$", "Чтение"), ("физ[уха]{,3}\s\d+$", "Физуха"), ("фан[тазия]{,5}\s\d+$", "Фантазия"), ("кре[ативность]{,9}\s\d+$", "Креативность")]
         self.dovs_ids = self.db.get("CowMod", "dovs_ids")
         self.prefix = self.db.get("CowMod", "prefix")
@@ -41,6 +41,7 @@ class CowMod(loader.Module):
         reply = await message.get_reply_message()
         author, content = await message.get_sender(), message.message
         args = utils.get_args_raw(message)
+        additional_word = args.strip().capitalize()
 
 # Действия с коровкой
         if author is not None and author.id in self.dovs_ids:
@@ -78,8 +79,11 @@ class CowMod(loader.Module):
             await reply.reply("Адд")
 
 # Действия с скрафтить
-        args = utils.get_args_raw(message)
         if author.id in self.dovs_ids and (r := re.match(self.prefix + r' скрафтить\s\w+\s\d+$', content, re.IGNORECASE)):
+            await message.reply(str(args))
+
+# Действия с пок
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' пок(?:\s+\w+)?$', content, re.IGNORECASE)):
             await message.reply(str(args))
 
 # Действия с кинуть
@@ -87,21 +91,23 @@ class CowMod(loader.Module):
             await message.reply(str(args))
 
 # Действия с рынком, базаром
-        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' базар\s+\w+$', content, re.IGNORECASE)):
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' (базар|бз)\s+\w+$', content, re.IGNORECASE)):
             await message.reply(str(args))
-        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' бз\s+\w+$', content, re.IGNORECASE)):
-            await message.reply(str(args))
-        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' рынок\s+\w+$', content, re.IGNORECASE)):
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' рынок(?:\s+\w+)?$', content, re.IGNORECASE)):
             await message.reply(str(args))
 
 # Действия с мз
-        args = utils.get_args_raw(message)
-        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' мз\s\w+', content, re.IGNORECASE)):
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' мз(?:\s+\w+)?$', content, re.IGNORECASE)):
             await message.reply(str(args))
 
 # Действия с рес
-        args = utils.get_args_raw(message)
-        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' рес\s\w+', content, re.IGNORECASE)):
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' рес(?:\s+\w+)?$', content, re.IGNORECASE)):
+            await message.reply(str(args))
+
+# Действия с рек, ач
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' рек(?:\s+\w+)?$', content, re.IGNORECASE)):
+            await message.reply(str(args))
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' ач(?:\s+\w+)?$', content, re.IGNORECASE)):
             await message.reply(str(args))
 
 # Действия с цыпами
