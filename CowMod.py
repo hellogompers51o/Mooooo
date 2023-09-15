@@ -41,7 +41,6 @@ class CowMod(loader.Module):
         reply = await message.get_reply_message()
         author, content = await message.get_sender(), message.message
         args = utils.get_args_raw(message)
-        additional_word = args.strip().capitalize()
 
 # Действия с коровкой
         if author is not None and author.id in self.dovs_ids:
