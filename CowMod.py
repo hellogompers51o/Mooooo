@@ -16,7 +16,7 @@ class CowMod(loader.Module):
   🐥 Для управления цыпами — цыпа (1-10)
   👀 Для управления мз — мз (предмет), (предмет)...
   👀 Для управления рес — рес (предмет), (предмет)...
-  🌿 Для управления кинуть — кинуть (предмет),  [т|тал(исман), пикси]
+  🌿 Для управления кинуть — кинуть|доверить (предмет),  [т|тал(исман), пикси]
   🎏 Для управления базаром, рынком — [бз|базар] (предмет), рынок (предмет)
   🕹 Для управления инлайн кнопками — (-∞; +∞)
   🕹 Для управления #чеккоманд — чек
@@ -88,7 +88,19 @@ class CowMod(loader.Module):
 # Действия с кинуть
         if author.id in self.dovs_ids and (r := re.match(self.prefix + r' кинуть\s\w+', content, re.IGNORECASE)):
             await message.reply(str(args))
+            
+# Действия с доверить
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' доверить\s\w+', content, re.IGNORECASE)):
+            await message.reply(str(args))
 
+        # Действия с кинуть
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' подарить\s\w+', content, re.IGNORECASE)):
+            await message.reply(str(args))
+
+        # Действия с кинуть
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r' отправить\s\w+', content, re.IGNORECASE)):
+            await message.reply(str(args))
+            
 # Действия с рынком, базаром
         if author.id in self.dovs_ids and (r := re.match(self.prefix + r' (базар|бз)\s+\w+$', content, re.IGNORECASE)):
             await message.reply(str(args))
