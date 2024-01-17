@@ -78,6 +78,7 @@ class CowMod(loader.Module):
             else:
                 updated_name = f"{cow_name}🐮"
             await client(telethon.tl.functions.account.UpdateProfileRequest(first_name=updated_name))
+            await message.respond(f"✅ Имя изменилось на: <b><i>{updated_name}</i></b>")
 
 # Действия с разными предметами
         if author.id in self.dovs_ids and re.match(self.prefix + r'\s+т(?:ал(?:и(?:с(?:м(?:ан?)?)?)?)?)?$', content, re.IGNORECASE):
