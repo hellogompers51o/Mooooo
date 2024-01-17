@@ -43,7 +43,7 @@ class CowMod(loader.Module):
         reply = await message.get_reply_message()
         author, content = await message.get_sender(), message.message
         args = utils.get_args_raw(message)
-        cow_name = me.first_name
+        cow_name = author.first_name
 
 # Действия с коровкой
         if author is not None and author.id in self.dovs_ids:
@@ -161,12 +161,7 @@ class CowMod(loader.Module):
 # Доверенность
     @loader.owner
     async def dovcmd(self, message):
-        """(аргумент
-    1) (аргумент 2)\n 📝 Введи
-    команду
-    для
-    просмотра
-    аргументов!"""
+        """(аргумент1) (аргумент 2)\n 📝 Введи команду для просмотра аргументов!"""
         args = utils.get_args(message)
         if len(args) < 1:
             dovs_ids_str = ', '.join(f'<code>@{id}</code>' for id in self.dovs_ids)
