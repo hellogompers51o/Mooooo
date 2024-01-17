@@ -1,9 +1,11 @@
-__version__ = (2, 8, 3)
+__version__ = (2, 9, 1)
+
 # meta developer: Аноним?
 from .. import loader, utils
 from hikkatl.tl.types import Message
 import asyncio, re, telethon, string
 from telethon.tl.types import KeyboardButtonSwitchInline
+
 
 class CowMod(loader.Module):
     """Коров`яча доверка
@@ -20,7 +22,7 @@ class CowMod(loader.Module):
   🎏 Для управления базаром, рынком — [бз|базар] (предмет), рынок (предмет)
   🕹 Для управления инлайн кнопками — (-∞; +∞)
   🕹 Для управления #чеккоманд — чек
-  ✨ Для управления доп. командами — муу, адд, скрафтить, гифт, пок, ач, рек, херомант, медаль, дд, ив, ивр, ивт, ивс, ивя, иви, ивм, ивз, гб"""
+  ✨ Для управления доп. командами — муу, адд, скрафтить, гифт, пок, ач, рек, херомант, медаль, дд, ив, ивр, ивт, ивс, ивя, иви, ивм, ивз, гб, корова, некорова"""
     strings = {"name": "HikkaDov"}
 
     async def client_ready(self, client, db):
@@ -41,6 +43,7 @@ class CowMod(loader.Module):
         reply = await message.get_reply_message()
         author, content = await message.get_sender(), message.message
         args = utils.get_args_raw(message)
+        cow_name = me.first_name
 
 # Действия с коровкой
         if author is not None and author.id in self.dovs_ids:
@@ -55,7 +58,7 @@ class CowMod(loader.Module):
                 pattern = self.prefix + r'\s+' + action + "$"
                 if re.match(pattern, content, re.IGNORECASE):
                     await message.respond(response)
-# Действия с рюкзаком   
+# Действия с рюкзаком
         if author.id in self.dovs_ids:
             for action, response in self.bp_actions:
                 if re.match(r := self.prefix + r'\s+' + action + "( \d+|)$", content, re.IGNORECASE):
@@ -67,7 +70,16 @@ class CowMod(loader.Module):
                 num_value = int(r.group(1))
                 await reply.reply(str(num_value))
 
-# Действия с разными предметами       
+
+# Действия с ником
+        if author.id in self.dovs_ids and (r := re.match(self.prefix + r'коровка', content, re.IGNORECASE)):
+            if "🐮" in cow_name:
+                updated_name = cow_name.replace("🐮", "")
+            else:
+                updated_name = f"{cow_name}🐮"
+            await client(telethon.tl.functions.account.UpdateProfileRequest(first_name=updated_name))
+
+# Действия с разными предметами
         if author.id in self.dovs_ids and re.match(self.prefix + r'\s+т(?:ал(?:и(?:с(?:м(?:ан?)?)?)?)?)?$', content, re.IGNORECASE):
             await message.reply("Кинуть талисман")
         if author.id in self.dovs_ids and re.match(self.prefix + r'\s+пикси$', content, re.IGNORECASE):
@@ -88,7 +100,7 @@ class CowMod(loader.Module):
 # Действия с кинуть
         if author.id in self.dovs_ids and (r := re.match(self.prefix + r' кинуть\s\w+', content, re.IGNORECASE)):
             await message.reply(str(args))
-            
+
 # Действия с доверить
         if author.id in self.dovs_ids and (r := re.match(self.prefix + r' доверить\s\w+', content, re.IGNORECASE)):
             await message.reply(str(args))
@@ -100,7 +112,7 @@ class CowMod(loader.Module):
         # Действия с кинуть
         if author.id in self.dovs_ids and (r := re.match(self.prefix + r' отправить\s\w+', content, re.IGNORECASE)):
             await message.reply(str(args))
-            
+
 # Действия с рынком, базаром
         if author.id in self.dovs_ids and (r := re.match(self.prefix + r' (базар|бз)\s+\w+$', content, re.IGNORECASE)):
             await message.reply(str(args))
@@ -129,7 +141,7 @@ class CowMod(loader.Module):
                 await asyncio.sleep(2)
 
 # Действия с чек
-        if author.id in self.dovs_ids and re.match(self.prefix + r'\s+чек$', content, re.IGNORECASE): 
+        if author.id in self.dovs_ids and re.match(self.prefix + r'\s+чек$', content, re.IGNORECASE):
             reply = await self.client.get_messages(message.chat_id, ids=reply.id)
             markup = reply.reply_markup
 
@@ -149,7 +161,12 @@ class CowMod(loader.Module):
 # Доверенность
     @loader.owner
     async def dovcmd(self, message):
-        """(аргумент 1) (аргумент 2)\n 📝 Введи команду для просмотра аргументов!"""
+        """(аргумент
+    1) (аргумент 2)\n 📝 Введи
+    команду
+    для
+    просмотра
+    аргументов!"""
         args = utils.get_args(message)
         if len(args) < 1:
             dovs_ids_str = ', '.join(f'<code>@{id}</code>' for id in self.dovs_ids)
