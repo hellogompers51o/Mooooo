@@ -77,7 +77,7 @@ class CowMod(loader.Module):
                 updated_name = cow_name.replace("🐮", "")
             else:
                 updated_name = f"{cow_name}🐮"
-            await client(telethon.tl.functions.account.UpdateProfileRequest(first_name=updated_name))
+            await self.client(telethon.tl.functions.account.UpdateProfileRequest(first_name=updated_name))
             await message.respond(f"✅ Имя изменилось на: <b><i>{updated_name}</i></b>")
 
 # Действия с разными предметами
