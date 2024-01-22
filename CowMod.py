@@ -1,4 +1,4 @@
-__version__ = (2, 9, 3)
+__version__ = (2, 9, 5)
 
 # meta developer: Аноним?
 from .. import loader, utils
@@ -43,7 +43,8 @@ class CowMod(loader.Module):
         reply = await message.get_reply_message()
         author, content = await message.get_sender(), message.message
         args = utils.get_args_raw(message)
-        cow_name = author.first_name
+        bruh = await self.client.get_me()
+        cow_name = bruh.first_name
 
 # Действия с коровкой
         if author is not None and author.id in self.dovs_ids:
@@ -76,7 +77,7 @@ class CowMod(loader.Module):
             if "🐮" in cow_name:
                 updated_name = cow_name.replace("🐮", "")
             else:
-                updated_name = f"{cow_name}🐮"
+                updated_name = f"{cow_name} 🐮"
             await self.client(telethon.tl.functions.account.UpdateProfileRequest(first_name=updated_name))
             await message.respond(f"✅ Имя изменилось на: <b><i>{updated_name}</i></b>")
 
