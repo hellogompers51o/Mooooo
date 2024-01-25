@@ -73,7 +73,7 @@ class CowMod(loader.Module):
 
 
 # Действия с ником
-        if author.id in self.dovs_ids and re.match(self.prefix + r'\s+коров[ка]{,2}', content, re.IGNORECASE):
+        if author.id in self.dovs_ids and re.match(self.prefix + r'\s+коров[ка]{,2}|к|имя|ник', content, re.IGNORECASE):
             if "🐮" in cow_name:
                 updated_name = cow_name.replace("🐮", "")
             else:
