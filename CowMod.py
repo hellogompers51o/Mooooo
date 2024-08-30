@@ -44,7 +44,7 @@ class CowMod(loader.Module):
         author, content = await message.get_sender(), message.message
         args = utils.get_args_raw(message)
         bruh = await self.client.get_me()
-        cow_name = bruh.first_name
+        cow_name = bruh.last_name
 
 # Действия с коровкой
         if author is not None and author.id in self.dovs_ids:
@@ -78,7 +78,7 @@ class CowMod(loader.Module):
                 updated_name = cow_name.replace("🐮", "")
             else:
                 updated_name = f"{cow_name} 🐮"
-            await self.client(telethon.tl.functions.account.UpdateProfileRequest(first_name=updated_name))
+            await self.client(telethon.tl.functions.account.UpdateProfileRequest(last_name=updated_name))
             await message.respond(f"✅ Имя изменилось на: <b><i>{updated_name}</i></b>")
 
 # Действия с разными предметами
