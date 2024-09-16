@@ -54,7 +54,7 @@ class CowMod(loader.Module):
                     await message.respond(response)
 
 # Действия с телями
-        if author.id in self.dovs_ids:
+        if author is not None and author.id in self.dovs_ids:
             for action, response in self.bull_actions.items():
                 pattern = self.prefix + r'\s+' + action + "$"
                 if re.match(pattern, content, re.IGNORECASE):
