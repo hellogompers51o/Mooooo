@@ -46,6 +46,9 @@ class CowMod(loader.Module):
         bruh = await self.client.get_me()
         cow_name = bruh.last_name
 
+        if author is None:
+            return
+
 # Действия с коровкой
         if author is not None and author.id in self.dovs_ids:
             for action, response in self.cow_actions.items():
